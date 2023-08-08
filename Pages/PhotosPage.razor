@@ -1,0 +1,44 @@
+@page "/photos"
+@inject PhotosService PhotosService
+@if (photos is not null)
+{
+    <div class="row">
+        @foreach (var i in photos)
+        {
+            <div class="col-3">
+                <MudCard class="p-4 m-4">
+                    <MudCardMedia Image="@i.url" Height="200" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">
+                            @i.id
+                        </MudText>
+                        <MudText Typo="Typo.body2">@i.albumId</MudText>
+                        <MudText class="mt-3" Typo="Typo.body2">
+                            @i.title
+                        </MudText>
+                        <MudText class="mt-3" Typo="Typo.body2">
+                        </MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary">To Message</MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary">Go Profile</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </div>
+        }
+    </div>
+}
+
+
+@code {
+
+    public List<Photos> photos { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        photos = await PhotosService.GetAllPhotoAsync();
+    }
+
+
+}
+

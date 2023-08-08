@@ -1,0 +1,40 @@
+@page "/comments"
+@inject CommentService CommentService
+
+@if (comments is not null)
+{
+    <div class="row align-items-center justify-content-center">
+        @foreach (var item in comments)
+        {
+            <div class="col-2 p-4">
+                <div class="mt-1 mb-1">
+                    <MudText>
+                        @item.postId
+                    </MudText>
+                </div>
+                <div class="mt-2 mb-2">
+                    <MudText>
+                        @item.name
+                    </MudText>
+                </div>
+                <MudText>
+                    @item.body
+                </MudText>
+            </div>
+        }
+    </div>
+}
+
+
+
+
+
+@code {
+    public List<Comment> comments { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        comments = await CommentService.GetAllCommentAsync();
+    }
+}
+

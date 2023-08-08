@@ -1,0 +1,53 @@
+@page "/posts"
+@inject UserPostService UserPostService
+@if (posts is not null)
+{
+    <div class="row justify-content-center">
+        <div class="col-10 p-3">
+            <MudCarousel Class="mud-width-full" Style="height:300px;" ShowArrows="@arrows" ShowBullets="@bullets"
+                EnableSwipeGesture="@enableSwipeGesture" AutoCycle="@autocycle" TData="UserPost">
+                @foreach (var post in posts)
+                {
+                    <MudCarouselItem Transition="transition" Color="@Color.Primary">
+                        <div class="text-center mt-5" style="height:100%">
+                            <div>@post.userId</div>
+                            <div>@post.id</div>
+                            <div>@post.title</div>
+                            <div>@post.body</div>
+                        </div>
+                    </MudCarouselItem>
+                }
+            </MudCarousel>
+        </div>
+    </div>
+}
+
+@code {
+
+    public List<UserPost> posts { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UserPostService.PostAllContentAsync();
+        posts = await UserPostService.GetAllPostAsync();
+        foreach (var item in posts)
+        {
+            System.Console.WriteLine(item.body);
+        }
+    }
+
+
+
+
+
+    private bool arrows = true;
+    private bool gesture = true;
+    private bool bullets = false;
+    private bool enableSwipeGesture = true;
+    private bool autocycle = true;
+    private Transition transition = Transition.Slide;
+
+}
+
+
+

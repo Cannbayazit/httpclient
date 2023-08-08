@@ -1,0 +1,38 @@
+﻿@page "/"
+@inject ToDoService toDoService
+@inject NavigationManager Navigation
+
+<table>
+    @if (todo is not null)
+    {
+        @foreach (var item in todo)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.title</td>
+                <td>
+                    <button @onclick="()=>NavigatePage(item.id)">Go To ToDo Page</button>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+
+@code {
+
+    public List<ToDo> todo { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        todo = await toDoService.GetAllToDoAsync();
+    }
+
+    public void NavigatePage(int id)
+    {
+        Navigation.NavigateTo($"/todo/{id}");
+    }
+
+}
+
+

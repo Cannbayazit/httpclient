@@ -1,0 +1,25 @@
+@page "/todo/{id:int}"
+@inject ToDoService toDoService
+
+
+<table>
+    @if (todo is not null)
+    {
+        <tr>
+            <td>@todo.title</td>
+        </tr>
+    }
+</table>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    public ToDo todo { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        todo = await toDoService.GetToDoAsync(id);
+    }
+}
+
